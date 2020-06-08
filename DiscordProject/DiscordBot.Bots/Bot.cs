@@ -1,4 +1,5 @@
-﻿using DSharpPlus;
+﻿using DiscordBot.Commands;
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using Newtonsoft.Json;
@@ -16,14 +17,13 @@ namespace DiscordBot
         public DiscordClient Client { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
 
-        public async Task RunAsync()
+        public Bot(IServiceProvider services)
         {
-
             var json = string.Empty;
 
             using (var fs = File.OpenRead("config.json"))
             using (var sr = new StreamReader(fs, new UTF8Encoding(false)))
-                json = await sr.ReadToEndAsync().ConfigureAwait(false);
+                json = sr.ReadToEnd();
 
             var configJson = JsonConvert.DeserializeObject<ConfigJsonStruct>(json);
 
@@ -42,16 +42,18 @@ namespace DiscordBot
 
             var commandsConfig = new CommandsNextConfiguration
             {
-                StringPrefixes = new string[] { configJson.Prefix},
+                StringPrefixes = new string[] { configJson.Prefix },
                 EnableMentionPrefix = true,
-                EnableDms = false
+                EnableDms = false,
+                DmHelp = true,
+                Services = services
             };
 
             Commands = Client.UseCommandsNext(commandsConfig);
 
-            await Client.ConnectAsync();
+            Commands.RegisterCommands<BaseCommands>();
 
-            await Task.Delay(-1);
+            Client.ConnectAsync();
         }
 
         private Task OnClientReady(ReadyEventArgs e)
