@@ -4,14 +4,16 @@ using DiscordBot.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DiscordBot.DAL.Migrations.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200610180111_LoggingEvent")]
+    partial class LoggingEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,11 +49,11 @@ namespace DiscordBot.DAL.Migrations.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DiscordDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DiscordUserId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("DiscordUserId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<string>("DiscordUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LoggingType")
                         .HasColumnType("int");

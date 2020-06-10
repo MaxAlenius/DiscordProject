@@ -1,4 +1,5 @@
 ﻿using DiscordBot.Core.Services.Items;
+using DiscordBot.Core.Services.Logging;
 using DiscordBot.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +24,7 @@ namespace DiscordBot
             });
 
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<ILoggingService, LoggingService>();
 
             var serviceProvider = services.BuildServiceProvider();
 

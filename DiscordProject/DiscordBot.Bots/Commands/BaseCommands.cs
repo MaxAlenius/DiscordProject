@@ -9,16 +9,21 @@ using DiscordBot.DAL.Models.Items;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using DiscordBot.Core.Services.Items;
+using DiscordBot.Core.Services.Logging;
+using DiscordBot.DAL.Models.DiscordUser;
+using DiscordBot.DAL.Models.Logging;
 
 namespace DiscordBot.Commands
 {
     public class BaseCommands : BaseCommandModule
     {
         private readonly IItemService _itemService;
+        private readonly ILoggingService _loggingService;
 
-        public BaseCommands(IItemService itemService)
+        public BaseCommands(IItemService itemService, ILoggingService loggingService )
         {
             _itemService = itemService;
+            _loggingService = loggingService;
         }
 
         [Command("Ping")]
@@ -30,6 +35,16 @@ namespace DiscordBot.Commands
         [Command("AddItem")]
         public async Task AddItem(CommandContext ctx, string itemName, string itemDescription)
         {
+            var user = new DiscordUserModel {UserId = ctx.Member.Id, DisplayName = ctx.Member.DisplayName };
+            var loggingEvent = new LoggingEventModel
+            {
+                Date = DateTime.UtcNow,
+                DiscordDisplayName = user.DisplayName,
+                DiscordUserId = user.UserId,
+                LoggingType = LoggingTypeEnum.Command,
+                Message = "AddItem"
+            };
+            await _loggingService.AddLoggingMessage(loggingEvent);
             await _itemService.AddItemAsync(itemName, itemDescription);
             await ctx.Channel.SendMessageAsync("Item added").ConfigureAwait(false);
         }
