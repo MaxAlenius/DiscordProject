@@ -53,15 +53,15 @@ namespace DiscordBot.Commands
         public async Task GetItem(CommandContext ctx, string itemName)
         {
 
-            Item item = await _itemService.GetItemByNameAsync(itemName).ConfigureAwait(false);
+            //Item item = await _itemService.GetItemByNameAsync(itemName).ConfigureAwait(false);
 
-            if (item == null)
-            {
-                await ctx.Channel.SendMessageAsync($"There is no item called {itemName}");
-                return;
-            }
+            //if (item == null)
+            //{
+            //    await ctx.Channel.SendMessageAsync($"There is no item called {itemName}");
+            //    return;
+            //}
 
-            await ctx.Channel.SendMessageAsync($"Name: {item.Name}, Description: {item.Description}");
+            //await ctx.Channel.SendMessageAsync($"Name: {item.Name}, Description: {item.Description}");
         }
     }
 }

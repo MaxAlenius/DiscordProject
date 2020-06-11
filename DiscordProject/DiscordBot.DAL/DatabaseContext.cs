@@ -9,7 +9,7 @@ namespace DiscordBot.DAL
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        public DatabaseContext(DbContextOptions options) : base(options)
         {
 
         }

@@ -12,7 +12,7 @@ namespace DiscordBot.Core.Services.Items
 {
     public interface IItemService
     {
-        Task<Item> GetItemByNameAsync(string itemName);
+        Task<Item> GetItemByNameAsync();
 
         Task AddItemAsync(string itemName, string description);
     }
@@ -20,25 +20,25 @@ namespace DiscordBot.Core.Services.Items
     public class ItemService : IItemService
     {
         private readonly DatabaseContext _context;
-        private readonly ILoggingService _loggingService;
 
-        public ItemService(DatabaseContext context, ILoggingService loggingService)
+        public ItemService(DatabaseContext context)
         {
             _context = context;
-            _loggingService = loggingService;
         }
 
         public async Task AddItemAsync(string itemName, string description)
         {
             //var test = new LoggingEventModel { Date = DateTime.Now, DiscordUserId = 123, DiscordDisplayName = "Max", LoggingType = LoggingTypeEnum.Command, Message = "AddItemAsync" };
             //await _loggingService.AddLoggingMessage(test);
-            await _context.Items.AddAsync(new Item { Name=itemName, Description=description}).ConfigureAwait(false);
-            await _context.SaveChangesAsync();
+            //await _context.Items.AddAsync(new Item { Name=itemName, Description=description}).ConfigureAwait(false);
+            //await _context.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<Item> GetItemByNameAsync(string itemName)
+        public async Task<Item> GetItemByNameAsync()
         {
-            return await _context.Items.FirstOrDefaultAsync(x => x.Name.ToLower() == itemName.ToLower()).ConfigureAwait(false);
+             throw new NotImplementedException();
+            //return await _context.Items.FirstOrDefaultAsync(x => x.Name.ToLower() == itemName.ToLower()).ConfigureAwait(false);
         }
     }
 }

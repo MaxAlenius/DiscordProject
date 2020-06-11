@@ -1,0 +1,15 @@
+﻿@page "/test"
+@using DiscordBot.Core.Services.Items
+<h1>Test</h1>
+
+
+@code {
+
+    [Inject]
+    public IItemService testas { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var item = await testas.GetItemByNameAsync();
+    }
+}
